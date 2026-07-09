@@ -21,6 +21,23 @@ def index():
     return make_response(body, 200)
 
 # Add views here
+@app.route('/earthquakes/<int:id>')
+def get_earthquake_by_id(id):
+    quake = Earthquake.query.filter_by(id=id).first()
+    if quake:
+        body = {
+            "id": quake.id,
+            "location": quake.location,
+            "magnitude": quake.magnitude,
+            "year": quake.year
+        }
+        return make_response(body, 200)
+    else:
+        body = {
+            "message": f"Earthquake {id} not found."
+        }
+        return make_response(body, 404)
+
 
 
 if __name__ == '__main__':
